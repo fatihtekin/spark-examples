@@ -25,15 +25,20 @@ import java.util.Collection;
 import org.apache.spark.api.java.*;
 import org.apache.spark.api.java.function.*;
 import org.apache.spark.SparkConf;
+
 import scala.Tuple2;
 
 public class JavaWordCount {
   public static void main(String[] args) {
-    JavaSparkContext sc = new JavaSparkContext(new SparkConf().setAppName("Spark Count"));
-    final int threshold = Integer.parseInt(args[1]);
+//    JavaSparkContext sc = new JavaSparkContext(new SparkConf().setAppName("Spark Count"));
+
+    JavaSparkContext sc = new JavaSparkContext("local", "Java Word Count");
+    
+    
+    final int threshold = Integer.parseInt("1");
     
     // split each document into words
-    JavaRDD<String> tokenized = sc.textFile(args[0]).flatMap(
+    JavaRDD<String> tokenized = sc.textFile("/home/cloudera/workspace/simplesparkapp/data/inputfile.txt").flatMap(
       new FlatMapFunction<String, String>() {
         @Override
         public Iterable<String> call(String s) {
